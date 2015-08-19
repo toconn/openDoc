@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="uDir" default="backup">
+
+    <property name="Source"             location="Source"         />
+	<property name="Source.Start"       location="Source - Start" />
+	<property name="Source.Test"        location="Source - Test"  />
+	<property name="Manifest"           location="Build/Manifest"  />
+	<property name="Release"            location="Build/Release"  />
+	<property name="BackupDir"          location="D:\Users\Tadhg Dev\Projects\All\Proj - uDir\Source\Java" />
+	
+	<property name="Version"            value="v 01.03.08"        />
+
+    <target name="clear">
+        <delete dir="${BackupDir}/${Version}/Source" />
+    	<delete dir="${BackupDir}/${Version}/Source - Start" />
+    	<delete dir="${BackupDir}/${Version}/Source - Test" />
+    	<delete dir="${BackupDir}/${Version}/Scripts" />
+	    <delete dir="${BackupDir}/${Version}/Build/Manifest" />
+    	<delete dir="${BackupDir}/${Version}/Executables" />
+	</target>
+	  
+    <target name="setup" depends="clear">
+        <mkdir dir="${BackupDir}/${Version}/Source" />
+    	<mkdir dir="${BackupDir}/${Version}/Source - Start" />
+    	<mkdir dir="${BackupDir}/${Version}/Source - Test" />
+    	<mkdir dir="${BackupDir}/${Version}/Scripts" />
+	    <mkdir dir="${BackupDir}/${Version}/Build/Manifest" />
+    	<mkdir dir="${BackupDir}/${Version}/Executables" />
+	</target>
+  
+    <target name="backup" depends="setup">
+    	
+        <copy todir="${BackupDir}/${Version}/Source">
+            <fileset dir="${Source}" />
+        </copy>
+
+        <copy todir="${BackupDir}/${Version}/Source - Start">
+            <fileset dir="${Source.Start}" />
+        </copy>
+
+        <copy todir="${BackupDir}/${Version}/Source - Test">
+            <fileset dir="${Source.Test}" />
+        </copy>
+
+        <copy todir="${BackupDir}/${Version}/Build/Manifest">
+            <fileset dir="${Manifest}" />
+        </copy>
+
+        <copy todir="${BackupDir}/${Version}/Executables">
+            <fileset dir="${Release}" />
+        </copy>
+
+        <copy todir="${BackupDir}/${Version}/Scripts">
+            <fileset dir=".">
+            	<include name="*.xml" />
+            </fileset>
+        </copy>
+    	
+    	<echo message="Backup of version ${Version} complete." />
+    	
+	</target>
+
+</project>

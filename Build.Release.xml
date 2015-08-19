@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="uDir" default="release.source.copy">
+
+    <property name="Source"             location="Source"         />
+	<property name="Source.Start"       location="Source - Start" />
+	<property name="Source.Test"        location="Source - Test"  />
+	<property name="Manifest"           location="Build/Manifest"  />
+	<property name="Release"            location="Build/Release"  />
+	
+	<property name="Release.Main"       location="D:\Users\Tadhg Dev\Projects\All\Proj - uDir\Release" />
+	<property name="Release.Source"     location="D:\Users\Tadhg Dev\Projects\All\Proj - uDir\Source\Java\Current\Workspace\uDir - Release" />
+	
+	<property name="Version"            value="v 01.06.00"        />
+	<property name="Version.Last"       value="v 01.05.00"        />
+	
+	
+    <target name="release.main.create">
+    	
+    	<delete dir="${Release.Main}/${Version}" />
+    	
+        <mkdir dir="${Release.Main}/${Version}"             />
+    	<mkdir dir="${Release.Main}/${Version}/Data"        />
+        <mkdir dir="${Release.Main}/${Version}/Documents"   />
+    	<mkdir dir="${Release.Main}/${Version}/Executables" />
+
+        <copy todir="${Release.Main}/${Version}/Data">
+            <fileset dir="${Release.Main}/${Version.Last}/Data" />
+        </copy>
+    	
+        <copy todir="${Release.Main}/${Version}/Documents">
+            <fileset dir="${Release.Main}/${Version.Last}/Documents" />
+        </copy>
+    	
+        <copy todir="${Release.Main}/${Version}/Executables">
+        	<fileset dir="${Release}" />
+        </copy>
+    	
+	</target>
+	
+  
+    <target name="release.source.copy" depends="release.main.create">
+    	
+    	<delete dir="${Release.Source}/Source" />
+    	<delete dir="${Release.Source}/Source - Start" />
+    	<delete dir="${Release.Source}/Source - Test" />
+    	<delete dir="${Release.Source}/Build/Manifest" />
+    	<delete dir="${Release.Source}/Build/Release" />
+    	
+    	<mkdir  dir="${Release.Source}/Source" />
+    	<mkdir  dir="${Release.Source}/Source - Start" />
+    	<mkdir  dir="${Release.Source}/Source - Test" />
+    	<mkdir  dir="${Release.Source}/Build/Manifest" />
+    	<mkdir  dir="${Release.Source}/Build/Release" />
+    	
+        <copy todir="${Release.Source}/Source">
+            <fileset dir="${Source}" />
+        </copy>
+
+        <copy todir="${Release.Source}/Source - Start">
+            <fileset dir="${Source.Start}" />
+        </copy>
+
+        <copy todir="${Release.Source}/Source - Test">
+            <fileset dir="${Source.Test}" />
+        </copy>
+
+        <copy todir="${Release.Source}/Build/Manifest">
+            <fileset dir="${Manifest}" />
+        </copy>
+
+        <copy todir="${Release.Source}/Build/Release">
+            <fileset dir="${Release}" />
+        </copy>
+
+        <copy file="build.xml"         todir="${Release.Source}" />
+    	
+    	<echo message="Backup of version ${version} complete." />
+    	
+	</target>
+
+</project>

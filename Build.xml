@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="oDir" default="cleanup">
+
+	<property name="Source.Core"     location="Source/Core"        />
+    <property name="Source.App"      location="Source/App"         />
+	<property name="Source.Shared"   location="Source/Shared"      />
+	<property name="Source.Start"    location="Source/App.Start"   />
+    <property name="Build"           location="Build/Classes"      />
+	<property name="Manifest"        location="Resources/Manifest" />
+	<property name="Release"         location="Build/Release"      />
+	
+	
+	<path id="Source.Path">
+		<pathelement path="${Source.Core}"      />
+		<pathelement path="${Source.Shared}"    />
+		<pathelement path="${Source.App}"       />
+	</path>
+	
+	
+	<target name="setup">
+		<delete>
+			<fileset dir="${Release}" includes="*.jarc"/>
+		</delete>
+		<copy file="${Source.App}/Start.java" tofile="${Source.Start}/Start.backup.java"/>
+	</target>
+	
+	
+	
+  	<target name="oApp.Source" depends="setup">
+  		<copy file="${Source.Start}/oApp/Start.java" tofile="${Source.App}/Start.java" overwrite="yes" />
+  		<delete file="${Build}/Start.class" />
+	</target>
+	
+  	<target name="oApp.Compile" depends="oApp.Source">
+  		<javac includeantruntime="false" destdir="${Build}">
+  			<src refid="Source.Path"/>
+  		</javac>
+	</target>
+	
+	<target name="oApp.Release" depends="oApp.Compile">
+		<jar basedir="${Build}" destfile="${Release}/oApp.jarc" manifest="${Manifest}/MANIFEST.MF" />
+	</target>
+	
+	
+	
+  	<target name="oDir.Source" depends="oApp.Release">
+  		<copy file="${Source.Start}/oDir/Start.java" tofile="${Source.App}/Start.java" overwrite="yes" />
+  		<delete file="${Build}/Start.class" />
+	</target>
+	
+  	<target name="oDir.Compile" depends="oDir.Source">
+  		<javac includeantruntime="false" destdir="${Build}">
+  			<src refid="Source.Path"/>
+  		</javac>
+	</target>
+	
+	<target name="oDir.Release" depends="oDir.Compile">
+		<jar basedir="${Build}" destfile="${Release}/oDir.jarc" manifest="${Manifest}/MANIFEST.MF" />
+	</target>
+	
+	
+	
+  	<target name="oDoc.Source" depends="oDir.Release">
+  		<copy file="${Source.Start}/oDoc/Start.java" tofile="${Source.App}/Start.java" overwrite="yes" />
+  		<delete file="${Build}/Start.class" />
+	</target>
+	
+  	<target name="oDoc.Compile" depends="oDoc.Source">
+  		<javac includeantruntime="false" destdir="${Build}">
+  			<src refid="Source.Path"/>
+  		</javac>
+	</target>
+	
+	<target name="oDoc.Release" depends="oDoc.Compile">
+		<jar basedir="${Build}" destfile="${Release}/oDoc.jarc" manifest="${Manifest}/MANIFEST.MF" />
+	</target>
+	
+	
+	
+  	<target name="oWeb.Source" depends="oDoc.Release">
+  		<copy file="${Source.Start}/oWeb/Start.java" tofile="${Source.App}/Start.java" overwrite="yes" />
+  		<delete file="${Build}/Start.class" />
+	</target>
+	
+  	<target name="oWeb.Compile" depends="oWeb.Source">
+  		<javac includeantruntime="false" destdir="${Build}">
+  			<src refid="Source.Path"/>
+  		</javac>
+	</target>
+	
+	<target name="oWeb.Release" depends="oWeb.Compile">
+		<jar basedir="${Build}" destfile="${Release}/oWeb.jarc" manifest="${Manifest}/MANIFEST.MF" />
+	</target>
+	
+	
+	
+	<target name="cleanup" depends="oWeb.Release">
+		<copy   file="${Source.Start}/Start.backup.java" tofile="${Source.App}/Start.java" overwrite="yes" />
+		<delete file="${Source.Start}/Start.backup.java" />
+	</target>
+
+
+</project>
